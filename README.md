@@ -55,7 +55,24 @@ A helper file used by the `Ipv4NetworkConfigurator` to automatically assign IP a
 
 ## How to Run
 
+### Using the IDE (GUI)
+
 1.  Open the project in the **OMNeT++ IDE**.
 2.  Right-click `omnetpp.ini`.
 3.  Select **Run As > OMNeT++ Simulation**.
 4.  Click **Run** in the simulation window to visualize the packet flow.
+
+### Using CLI (Headless Mode)
+
+To run the simulation without the graphical interface (useful for servers or batch runs):
+
+1.  Open your terminal/command prompt.
+2.  Navigate to the project folder.
+3.  Run the following command:
+    ```bash
+    opp_run -u Cmdenv -c General -n . omnetpp.ini
+    ```
+    *   `-u Cmdenv`: Selects the command-line interface (no GUI).
+    *   `-c General`: Runs the configuration named "General".
+    *   `-n .`: Sets the NED path to the current directory.
+
