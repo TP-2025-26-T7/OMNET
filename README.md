@@ -57,6 +57,8 @@ A helper file used by the `Ipv4NetworkConfigurator` to automatically assign IP a
 
 ### Using the IDE (GUI)
 
+https://omnetpp.org/download/
+
 1.  Open the project in the **OMNeT++ IDE**.
 2.  Right-click `omnetpp.ini`.
 3.  Select **Run As > OMNeT++ Simulation**.
