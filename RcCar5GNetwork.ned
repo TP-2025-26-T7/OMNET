@@ -1,4 +1,4 @@
-package myrcproject;
+package tp7.myrcproject;
 
 import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 import inet.networklayer.ipv4.RoutingTableRecorder;
