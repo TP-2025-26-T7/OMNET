@@ -125,7 +125,7 @@ Once you are in the correct environment `opp_env`:
 ## 4) Create a clean project structure (src + simulations) in the IDE
 
 1. **File → New → OMNeT++ Project**
-2. Input name -> Next >
+2. Input name (`tp7`) -> Next >
 3. Select: **Clean project with src and simulation folders**
 4. Next > (Skip C++ Project type, keep default)
 5. Next > (Skip Select Configuration, keep default)
