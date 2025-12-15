@@ -45,7 +45,7 @@ A helper file used by the `Ipv4NetworkConfigurator` to automatically assign IP a
 
 ## How It Works
 
-1.  **Initialization**: The simulation starts, placing 3 cars and 1 gNodeB on the canvas.
+1.  **Initialisation**: The simulation starts, placing 3 cars and 1 gNodeB on the canvas.
 2.  **Connection**: Cars attach to the gNodeB signal.
 3.  **Traffic Flow**:
     *   At `t=2s`, the Controller sends a 1024-byte UDP packet to Car 0.
@@ -53,28 +53,133 @@ A helper file used by the `Ipv4NetworkConfigurator` to automatically assign IP a
     *   Car 0 receives the packet and immediately sends it back (Echo).
 4.  **Loop**: This repeats for all cars every second.
 
-## How to Run
+# How to Run and Set Up
 
-### Using the IDE (GUI)
+# OMNeT++ on Windows via WSL2 
 
-https://omnetpp.org/download/
+## 1) Install (or update) WSL2 on Windows
 
-1.  Open the project in the **OMNeT++ IDE**.
-2.  Right-click `omnetpp.ini`.
-3.  Select **Run As > OMNeT++ Simulation**.
-4.  Click **Run** in the simulation window to visualize the packet flow.
+1. Open **PowerShell as Administrator**.
 
-### Using CLI (Headless Mode)
+2. Install WSL + default Ubuntu:
 
-To run the simulation without the graphical interface (useful for servers or batch runs):
+   ```powershell
+   wsl --install
+   ```
 
-1.  Open your terminal/command prompt.
-2.  Navigate to the project folder.
-3.  Run the following command:
-    ```bash
-    opp_run -u Cmdenv -c General -n . omnetpp.ini
-    ```
-    *   `-u Cmdenv`: Selects the command-line interface (no GUI).
-    *   `-c General`: Runs the configuration named "General".
-    *   `-n .`: Sets the NED path to the current directory.
+3. Reboot when prompted.
 
+4. Update and verify WSL:
+
+   ```powershell
+   wsl --update
+   wsl --version
+   wsl --list --verbose
+   ```
+
+---
+
+## 3) Install OMNeT++ 
+
+### Option A (Recommended on Windows): `opp_env.wsl` 
+
+OMNeT++’s download page recommends `opp_env` and specifically provides an **`opp_env.wsl`** image for WSL, with a minimum WSL version requirement.
+
+**Install `opp_env.wsl`:**
+
+* Download `opp_env.wsl` and **double-click** it
+* On first run, follow the prompts (option 2 with INET is best)
+* On **other runs** to open the WSL use:
+
+```powershell
+wsl -d opp_env
+```
+
+---
+
+## 3.1) Install the needed framework: Simu5G (and its dependencies)
+
+Inside the `opp_env.wsl` distro:
+
+```bash
+mkdir -p ~/workspace/simu5g_ws
+cd ~/workspace/simu5g_ws
+opp_env init
+opp_env install simu5g-1.3.0
+```
+
+* Note: Go make your self some coffe (wait time to download everything is about 45 minutes)
+
+---
+
+## 3.2) Start the IDE (GUI)
+
+Once you are in the correct environment `opp_env`:
+
+  ```bash
+  omnetpp
+  ```
+
+---
+
+## 4) Create a clean project structure (src + simulations) in the IDE
+
+1. **File → New → OMNeT++ Project**
+2. Input name -> Next >
+3. Select: **Clean project with src and simulation folders**
+4. Next > (Skip C++ Project type, keep default)
+5. Next > (Skip Select Configuration, keep default)
+6. Finish
+
+### 4.2) Add references and packages
+
+Right-click the project -> Properties -> Project References -> Select: **inet** and **simu5g**
+
+**Add**
+NED file needs to be placed in a folder named `myrcproject` in `src` folder
+
+---
+
+## 5) Build the project (IDE workflow)
+
+1. **Project → Build Project** (Or Build ALL)
+2. If you get linker/include errors, re-check:
+
+   * Project references to INET/Simu5G
+   * Active build configuration (Debug/Release), especially if you mix binaries
+
+---
+
+## 6) Put files from GitHub into the IDE project
+
+* Clone OMNET github repo into your **WSL Linux filesystem** (e.g., `~/workspace/...`), then import into the IDE.
+
+Steps:
+
+1. In WSL:
+
+   ```bash
+   cd ~/workspace
+   git clone https://github.com/TP-2025-26-T7/OMNET.git
+   ```
+2. In OMNeT++ IDE:
+
+   * **File → Import → General → Existing Projects into Workspace**
+   * Select the cloned directory
+
+---
+
+## 7) Run the simulation (GUI)
+
+1. Open `simulations/omnetpp.ini`
+2. Right-click → **Run As → OMNeT++ Simulation**
+3. Choose **Qtenv** if you want interactive GUI runs.
+
+---
+
+# Error handling
+
+- NED file needs to be placed in a folder named "myrcproject"
+- omnetpp.ini needs to have Network set as: `<projectname>.myrcprojectRcCar5GNetwork`
+- Original project name in OMNET was `tp7`
+- Other than that, its skill issue
