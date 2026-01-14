@@ -1,18 +1,18 @@
-package myrcproject;
+package tp7.myrcproject;
 
 import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 import inet.networklayer.ipv4.RoutingTableRecorder;
 import inet.node.inet.Router;
 import inet.node.inet.StandardHost;
-import inet.linklayer.ethernet.EthernetLink as Eth10G;
+import inet.node.ethernet.EthernetLink;
 
 import simu5g.world.radio.LteChannelControl;
 import simu5g.common.binder.Binder;
 import simu5g.common.carrierAggregation.CarrierAggregation;
 import simu5g.nodes.Upf;
-import simu5g.nodes.NR.gNodeB;
-import simu5g.nodes.NR.NRUe;
-import simu5g.nodes.backgroundCell.BackgroundCell;
+import simu5g.nodes.gNodeB;
+import simu5g.nodes.NrUe;
+import simu5g.nodes.BackgroundCell;
 
 network RcCar5GNetwork
 {
@@ -55,12 +55,12 @@ network RcCar5GNetwork
         bgCell[numBgCells]: BackgroundCell {
             @display("p=416,277;is=vl");
         }
-        car[numCars]: NRUe {
+        car[numCars]: NrUe {
             @display("p=628,411;i=vehicle/car");
         }
     connections:
-        controller.pppg++ <--> Eth10G <--> router.pppg++;
-        router.pppg++      <--> Eth10G <--> upf.filterGate;
-        upf.pppg++         <--> Eth10G <--> coreUpf.pppg++;
-        coreUpf.pppg++     <--> Eth10G <--> gnb.ppp;
+        controller.pppg++ <--> EthernetLink <--> router.pppg++;
+        router.pppg++      <--> EthernetLink <--> upf.filterGate;
+        upf.pppg++         <--> EthernetLink <--> coreUpf.pppg++;
+        coreUpf.pppg++     <--> EthernetLink <--> gnb.ppp;
 }
