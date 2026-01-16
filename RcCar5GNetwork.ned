@@ -5,6 +5,7 @@ import inet.networklayer.ipv4.RoutingTableRecorder;
 import inet.node.inet.Router;
 import inet.node.inet.StandardHost;
 import inet.node.ethernet.EthernetLink;
+import inet.node.ethernet.EthernetHub;
 
 import simu5g.world.radio.LteChannelControl;
 import simu5g.common.binder.Binder;
@@ -25,6 +26,9 @@ network RcCar5GNetwork
         channelControl: LteChannelControl {
             @display("p=50,25;is=s");
         }
+        extHub: EthernetHub {
+    		@display("p=150,80");
+		}
         routingRecorder: RoutingTableRecorder {
             @display("p=50,75;is=s");
         }
@@ -63,4 +67,5 @@ network RcCar5GNetwork
         router.pppg++      <--> EthernetLink <--> upf.filterGate;
         upf.pppg++         <--> EthernetLink <--> coreUpf.pppg++;
         coreUpf.pppg++     <--> EthernetLink <--> gnb.ppp;
+        controller.ethg++ <--> EthernetLink <--> extHub.ethg++;
 }
